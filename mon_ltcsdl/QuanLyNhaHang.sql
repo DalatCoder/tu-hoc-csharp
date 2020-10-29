@@ -179,3 +179,195 @@ INSERT INTO BillDetails (BillID, FoodID, Quantity)
 		(2, 7, 2),
 		(2, 5, 5);
 SELECT * FROM BillDetails;
+
+-- PROCEDURE --
+-- Category Table
+CREATE PROCEDURE Category_GetAll
+AS
+	BEGIN
+		SELECT * FROM dbo.Category
+	END
+GO
+
+CREATE PROCEDURE Category_GetByID
+(
+	@ID	INT
+)
+AS
+	BEGIN
+		SELECT * FROM dbo.Category WHERE ID = @ID
+	END
+GO
+
+CREATE PROCEDURE Category_Insert
+(
+	@Name NVARCHAR(1000),
+	@Type INT
+)
+AS
+	BEGIN
+		IF (NOT EXISTS(SELECT Name FROM dbo.Category WHERE Name = @Name))
+			INSERT INTO dbo.Category (Name, Type) VALUES (@Name, @Type)
+	END
+GO
+
+CREATE PROCEDURE Category_Update
+(
+	@ID INT,
+	@Name NVARCHAR(1000),
+	@Type INT
+)
+AS
+	BEGIN
+		UPDATE dbo.Category
+		SET [Name] = @Name, [Type] = @Type
+		WHERE ID = @ID
+	END
+GO
+
+CREATE PROCEDURE Category_Delete
+(
+	@ID INT
+)
+AS
+	BEGIN
+		DELETE FROM dbo.Category
+		WHERE ID = @ID
+	END
+GO
+
+-- Food table --
+CREATE PROCEDURE Food_GetAll
+AS
+	BEGIN
+		SELECT * FROM dbo.Food
+	END
+GO
+
+CREATE PROCEDURE Food_GetByID
+(
+	@ID INT
+)
+AS
+	BEGIN
+		SELECT * FROM dbo.Food WHERE ID = @ID
+	END
+GO
+
+CREATE PROCEDURE Food_Insert
+(
+	@Name NVARCHAR(1000),
+	@Unit NVARCHAR(100),
+	@FoodCategoryID INT,
+	@Price INT,
+	@Notes NVARCHAR(3000)
+)
+AS
+	BEGIN
+		IF (LEN(@Name) = 0)
+			INSERT INTO dbo.Food(Unit, FoodCategoryID, Price, Notes)
+				VALUES (@Unit, @FoodCategoryID, @Price, @Notes)
+		ELSE
+			IF (NOT EXISTS(SELECT Name FROM dbo.Food WHERE Name = @Name))
+				INSERT INTO dbo.Food(Name, Unit, FoodCategoryID, Price, Notes)
+					VALUES (@Name, @Unit, @FoodCategoryID, @Price, @Notes)
+	END
+GO
+
+CREATE PROCEDURE Food_Update
+(
+	@ID INT,
+	@Name NVARCHAR(1000),
+	@Unit NVARCHAR(100),
+	@FoodCategoryID INT,
+	@Price INT,
+	@Notes NVARCHAR(3000)	
+)
+AS
+	BEGIN
+		UPDATE dbo.Food
+		SET
+			[Name] = @Name,
+			[Unit] = @Unit,
+			[FoodCategoryID] = @FoodCategoryID,
+			[Price] = @Price,
+			[Notes] = @Notes
+		WHERE ID = @ID
+	END
+GO
+
+CREATE PROCEDURE Food_Delete
+(
+	@ID INT
+)
+AS
+	BEGIN
+		DELETE FROM dbo.Food
+		WHERE ID = @ID
+	END
+GO
+
+-- [Table] Table --
+CREATE PROCEDURE Table_GetAll
+AS
+	BEGIN
+		SELECT * FROM [Table]
+	END
+GO
+
+CREATE PROCEDURE Table_GetByID
+(
+	@ID INT
+)
+AS
+	BEGIN
+		SELECT * FROM [Table] WHERE ID = @ID
+	END
+GO
+
+	Name NVARCHAR(1000) NULL,
+	Status INT,
+	Capacity INT NULL
+
+CREATE PROCEDURE Table_Insert
+(
+	@Name NVARCHAR(1000),
+	@Status INT,
+	@Capacity INT
+)
+AS
+	IF (LEN(@Name) = 0)
+		INSERT INTO [Table] (Status, Capacity) VALUES (@Status, @Capacity)
+	ELSE
+		IF (NOT EXISTS(SELECT Name FROM [Table] WHERE Name = @Name))
+			INSERT INTO [Table] (Name, Status, Capacity) VALUES (@Name, @Status, @Capacity)
+GO
+
+CREATE PROCEDURE Table_Update
+(
+	@ID INT,
+	@Name NVARCHAR(1000),
+	@Status INT,
+	@Capacity INT	
+)
+AS
+	BEGIN
+		UPDATE [Table]
+		SET
+			[Name] = @Name,
+			[Status] = @Status,
+			[Capacity] = @Capacity
+		WHERE ID = @ID
+	END
+GO
+
+CREATE PROCEDURE Table_Delete
+(
+	@ID INT
+)
+AS
+	BEGIN
+		DELETE FROM [Table]
+		WHERE ID = @ID
+	END
+GO
