@@ -1,21 +1,14 @@
 ﻿namespace Acme.Biz
 {
 	/// <summary>
-	/// Manages product carried in inventory
+	/// Manages products carried in inventory
 	/// </summary>
 	public class Product
 	{
 		public Product()
 		{
 
-		}
-
-		public Product(string productName, string description, int productId) : this()
-		{
-			ProductName = productName;
-			Description = description;
-			ProductId = productId;
-		}
+		}	
 
 		private string productName;
 
@@ -33,14 +26,14 @@
 			set { description = value; }
 		}
 
-		private int productId;
+		private int proudctId;
 
 		public int ProductId
 		{
-			get { return productId; }
-			set { productId = value; }
+			get { return proudctId; }
+			set { proudctId = value; }
 		}
-
+		
 		public string SayHello()
 		{
 			return $"Hello {ProductName}({ProductId}): {Description}";
