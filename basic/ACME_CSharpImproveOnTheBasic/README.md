@@ -140,3 +140,121 @@ FAQs:
   - Instantiating related objects when they are needed and not before
   
   - This often involves creating the instance in the property getter for the related object
+
+Data Encapsulation/ Information Hiding
+
+- Object's data is only accessible to that object
+
+- Fields are private
+
+- Accessible outside of the class through property getters and setters
+
+```csharp
+private string description;
+private int productId;
+private string productName;
+private Vendor productVendor;
+```
+
+Nullable Types
+
+```csharp
+private decimal? cost;
+private DateTime? availablityDate;
+```
+
+- Allows definition of a value OR null
+
+- Specified with a "?" suffix on the type
+
+- Distinguishes "not set" from the default value
+
+Nullable Type Best Practices
+
+- Use on simple types to distinguish "not set" and "default value"
+
+- Use properties of the type such as HasValue and Value as needed
+  
+  - ```csharp
+    if (AvailablityDate.HasValue)
+    {
+        DateTime aDate = AvailabilityDate.Value;
+    }
+    ```
+
+Constants
+
+```csharp
+public const double Pi = 3.14;
+public const int Red = 0xFF0000;
+public const double InchesPerMeter = 39.37;
+```
+
+- Defined in a class
+
+- Holds a hard-coded value that does not change
+
+- Must be assigned to an expression that can be fully evaluated at compile time
+  
+  - Think of a constant as a "compile-time" constant value
+
+- Compiled into every location that references it
+
+- Are static
+
+Read-Only Fields
+
+```csharp
+public readonly decimal MinimumPrice;
+public readonly string DefaultMeasure = GetDefaultMeasure();
+public Product()
+{
+    MinimumPrice = RetrieveMinimumPrice();
+}
+```
+
+- A variable in a class
+
+- Holds a value that is initialized and then not changed
+
+- Must be initialized:
+  
+  - In the declaration
+  
+  - Or in a constructor
+
+- Think of a readonly fields as a "runtime" constant value
+
+Constant vs. Read-Only
+
+| Constant Field                                      | Read-only Field                             |
+| --------------------------------------------------- | ------------------------------------------- |
+| Compile-time constant                               | Runtime constant                            |
+| Assigned to an expression evaluated at compile time | Assigned to any valid expression at runtime |
+| Assigned on declaration                             | Assigned on declaration or constructor      |
+| Only number, Boolean, or string                     | Any data type                               |
+| Always static                                       | Optionally static                           |
+
+FAQs
+
+- Explain the data encapsulation principle
+  
+  - An object's data should be accessible only to the object
+  
+  - Backing fields containing the object data should be marked as private
+
+- What is a backing field?
+  
+  - A variable in a class used to retain each object's data
+
+- When should you use a backing field?
+  
+  - For every data field retained for an object
+
+- When should you use a constant?
+  
+  - When defining a filed with a simple data type that will never change
+
+- When should you use a readonly field?
+  
+  - When defining a field that is initialized from a file, table, or code but should not then be changed anywhere else in the application
