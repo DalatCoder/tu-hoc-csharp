@@ -258,3 +258,162 @@ FAQs
 - When should you use a readonly field?
   
   - When defining a field that is initialized from a file, table, or code but should not then be changed anywhere else in the application
+
+Properties
+
+```csharp
+private string productName;
+
+public string ProductName
+{
+    get { return productName; }
+    set { productName = value; }
+}
+```
+
+- Getter and setter functions
+
+- Guard access to the fields
+
+- Encapsulate the fields
+
+Code in the Getter
+
+- Check the user's credentials (admin, mod,...)
+
+- Check application state
+
+- Format the returned value
+
+- Log
+
+- Lazy loading
+
+```csharp
+private string productName;
+
+public string ProductName
+{
+    get {
+        var formattedValue = productName?.Trim();
+        return formattedValue; 
+    }
+    set { productName = value; }
+}
+
+private Vendor productVendor;
+
+public Vendor ProductVendor
+{
+    get 
+    {
+        if (productVendor == null)
+            productVendor = new Vendor();
+        return productVendor;
+    }
+    set { productVendor = value; }
+}
+```
+
+Code in the Setter
+
+- Check the user's credentials
+
+- Check application state
+
+- Validate the incoming value
+
+- Log or change tracking
+
+- Format, convert, clean up
+
+```csharp
+private string productName;
+public string ProductName
+{
+    get {return productName; }
+    set 
+    {
+        if (value.Length < 3)
+            Message = "Too short";
+        else
+            productName = value;
+    }
+}
+```
+
+Auto-Implemented Properties
+
+```csharp
+public string Category { get; set; }
+public int SequenceNumber { get; set; }
+```
+
+- Concise property declaration
+
+- Implicit backing field
+
+- Don't allow code in the getter or setter
+
+- Best used for simple properties
+
+Read-only auto implemented Properties
+
+```csharp
+public int InventoryCount { get; }
+public Product()
+{
+    this.InventoryCount = GetInventoryCount();
+}
+```
+
+Additional Uses of Properties
+
+- Define concatednated values
+  
+  - ```csharp
+    public string LastName {get; set;}
+    public string FirstName {get; set;}
+    
+    public string FullName
+    {
+        get {return FirstName + " " + LastName;}
+    }
+    ```
+
+- Calculations
+  
+  - ```csharp
+    public int Quantity {get; set;}
+    public int Price {get; set;}
+    
+    public int LineItemTotal
+    {
+        get {return Quantity * Price;}
+    }
+    ```
+
+- Related Object Properties
+  
+  - ```csharp
+    public int Vendor ProductVendor {get; set;}
+    
+    public string VendorName
+    {
+        get {return ProductVendor?.CompanyName;}
+    }
+    ```
+
+Expression-Bodied Properties
+
+- Syntax shortcut
+
+- Readonly properties
+
+- Immediately return a value
+
+- ```csharp
+  public string FullName => FirstName + " " + LastName;
+  public int ItemTotal => Quantity * Price;
+  public string VendorName => ProductVendor?.CompanyName;
+  ```
