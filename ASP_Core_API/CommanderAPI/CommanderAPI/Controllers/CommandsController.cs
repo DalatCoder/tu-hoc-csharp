@@ -25,6 +25,7 @@ namespace CommanderAPI.Controllers
 
 		//private readonly MockCommanderRepo _repository = new MockCommanderRepo();
 
+		// GET api/commands
 		[HttpGet]
 		public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
 		{
@@ -33,8 +34,8 @@ namespace CommanderAPI.Controllers
 			return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
 		}
 
-		// api/commands/{id}
-		[HttpGet("{id}")]
+		// GET api/commands/{id}
+		[HttpGet("{id}", Name = "GetCommandById")]
 		public ActionResult<CommandReadDto> GetCommandById(int id)
 		{
 			// id come from {id} in route
@@ -44,6 +45,18 @@ namespace CommanderAPI.Controllers
 				return Ok(_mapper.Map<CommandReadDto>(commandItem));
 
 			return NotFound();
+		}
+
+		// POST api/commands
+		[HttpPost]
+		public ActionResult<CommandReadDto> CreateCommand(CommandCreateDto commandCreateDto)
+		{
+			var commandModel = _mapper.Map<Command>(commandCreateDto);
+			_repository.CreateCommand(commandModel);
+			_repository.SaveChanges();
+
+			var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+			return CreatedAtRoute(nameof(GetCommandById), new { commandReadDto.Id }, commandReadDto);
 		}
 	}
 }
