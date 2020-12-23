@@ -9,9 +9,9 @@ namespace CommanderAPI.Data
 		{
 			var commands = new List<Command>()
 			{
-				new Command() { ID = 0, HowTo = "Boil an egg", Line = "boil water", Platform = "Windows" },
-				new Command() { ID = 1, HowTo = "Cut bread", Line = "get a knife", Platform = "Windows" },
-				new Command() { ID = 2, HowTo = "Make cup of tea", Line = "place teabag on cup", Platform = "Windows" }
+				new Command() { Id = 0, HowTo = "Boil an egg", Line = "boil water", Platform = "Windows" },
+				new Command() { Id = 1, HowTo = "Cut bread", Line = "get a knife", Platform = "Windows" },
+				new Command() { Id = 2, HowTo = "Make cup of tea", Line = "place teabag on cup", Platform = "Windows" }
 			};
 
 			return commands;
@@ -19,7 +19,7 @@ namespace CommanderAPI.Data
 
 		public Command GetCommandById(int id)
 		{
-			return new Command() { ID = 0, HowTo = "Boil an egg", Line = "boil water", Platform = "Windows" };
+			return new Command() { Id = 0, HowTo = "Boil an egg", Line = "boil water", Platform = "Windows" };
 		}
 	}
 }
